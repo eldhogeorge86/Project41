@@ -35,6 +35,5 @@
 	
         <source-file src="src/android/ParseExtension.java" target-dir="src/com/conzole/parseplugin" />      
 		<source-file src="src/android/Parse-1.5.1.jar" target-dir="libs" />
-		<source-file src="src/android/facebooksdk.jar" target-dir="libs" />
      </platform>          
 </plugin>

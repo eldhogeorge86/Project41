@@ -36,7 +36,8 @@ var app = {
         app.receivedEvent('deviceready');
 
 		parseObject.initialize(function(){}, function(){});
-		parseObject.signup("eldhogeorge86@gmail.com", "123456", function(){}, function(){});
+		parseObject.fbLogin(function(){}, function(){});
+		//parseObject.signup("eldhogeorge86@gmail.com", "123456", function(){}, function(){});
 		 
     },
     // Update DOM on a Received Event
