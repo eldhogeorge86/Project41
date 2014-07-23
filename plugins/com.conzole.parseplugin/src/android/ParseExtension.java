@@ -48,7 +48,7 @@ public class ParseExtension extends CordovaPlugin {
 			
 			if (action.equals("signup")) {
 				JSONObject arg_object = args.getJSONObject(0);
-				signUp(arg_object.getString("user"), arg_object.getString("password"), callbackContext);
+				signUp(arg_object.getString("name"),arg_object.getString("user"), arg_object.getString("password"), callbackContext);
 				return true;
 			}
 			
@@ -87,9 +87,16 @@ public class ParseExtension extends CordovaPlugin {
 		ParseUser.logInInBackground(userName, password, new LogInCallback() {
 			  public void done(ParseUser user, ParseException e) {
 			    if (user != null) {
-			      // Hooray! The user is logged in.
-			    	Log.d(TAG, "User logged in!");
-		  		    callbackContext.success();
+					try{
+						JSONObject ret = new JSONObject();
+						ret.put("name", user.getString("name"));
+						Log.d(TAG, "User logged in!");
+						callbackContext.success(ret);
+					}
+					catch(JSONException je) {
+						Log.e(TAG, "Bad thing happened with profile json", je);
+						callbackContext.error("json exception");
+					}
 			    } else {
 			      // Signup failed. Look at the ParseException to see what happened.
 			    	Log.d(TAG, "Exception: " + e.getMessage());
@@ -105,6 +112,7 @@ public class ParseExtension extends CordovaPlugin {
 			JSONObject ret = new JSONObject();
 			if (currentUser != null) {
 			  // do stuff with the user
+			    ret.put("name", currentUser.getString("name"));
 				ret.put("exists", true);
 			} else {
 			  // show the signup or login screen
@@ -163,18 +171,26 @@ public class ParseExtension extends CordovaPlugin {
 	  		});
 	}
 	
-	private void signUp(String userName, String password, final CallbackContext callbackContext){
+	private void signUp(final String name, String userName, String password, final CallbackContext callbackContext){
 		ParseUser user = new ParseUser();
     	user.setUsername(userName);
     	user.setPassword(password);
     	user.setEmail(userName);
-    	 
+    	user.put("name", name);
+		
     	user.signUpInBackground(new SignUpCallback() {
     	  public void done(ParseException e) {
     	    if (e == null) {
-    	      // Hooray! Let them use the app now.
-    	    	Log.d(TAG, "signup success");
-    	    	callbackContext.success();
+    	        try{
+					JSONObject ret = new JSONObject();
+					ret.put("name", name);
+					Log.d(TAG, "signup success");
+					callbackContext.success(ret);
+				}
+				catch(JSONException je) {
+					Log.e(TAG, "Bad thing happened with profile json", je);
+					callbackContext.error("json exception");
+				}
     	    } else {
     	      // Sign up didn't succeed. Look at the ParseException
     	      // to figure out what went wrong

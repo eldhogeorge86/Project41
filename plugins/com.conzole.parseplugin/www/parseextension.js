@@ -25,13 +25,14 @@ var parseObject = {
         ); 
 	},
 	
-	signup : function(user, password, successCallback, errorCallback){
+	signup : function(name, user, password, successCallback, errorCallback){
 		cordova.exec(
             successCallback, // success callback function
             errorCallback, // error callback function
             'ParsePlugin', // mapped to our native Java class called "ParseExtension"
             'signup', // with this action name
             [{                  // and this array of custom arguments to create our entry
+				"name" : name,
                 "user" : user,
 				"password" : password
             }]

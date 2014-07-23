@@ -6,7 +6,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('project41', ['ionic', 'project41.controllers'])
 
-    .run(function($rootScope, $state, $ionicPlatform, $location, $window) {
+    .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $window) {
+
+        $rootScope.slideSideMenu = false;
+        $rootScope.isLoggedIn = false;
+        $rootScope.displayName = "";
+
         $ionicPlatform.ready(function() {
 
             console.log("ionic ready");
@@ -28,38 +33,49 @@ angular.module('project41', ['ionic', 'project41.controllers'])
 
             if(typeof parseObject!= "undefined")
             {
+                $ionicLoading.show({
+                    template: 'Loading...'
+                });
+
                 parseObject.isLoggedIn(function(ret){
                         if(ret != null && ret.exists) {
                             console.log("already logged in, redirect to home");
+                            console.log("display name : " + ret.name);
+                            $rootScope.displayName = ret.name;
                             $rootScope.isLoggedIn = true;
                             $rootScope.slideSideMenu = true;
+                            $rootScope.$broadcast("loggedIn");
                             $location.replace();
                             $state.go('app.home');
+                            $location.replace();
                         }
                         else {
                             $rootScope.isLoggedIn = false;
                             $rootScope.slideSideMenu = false;
                             $location.replace();
                             $state.go('app.login');
+                            $location.replace();
                         }
+                        $ionicLoading.hide();
                     },
                     function(){
                         $rootScope.isLoggedIn = false;
                         $rootScope.slideSideMenu = false;
                         $location.replace();
                         $state.go('app.login');
+                        $location.replace();
+                        $ionicLoading.hide();
                     });
             }
             else{
+                $rootScope.displayName = "eg";
                 $rootScope.slideSideMenu = false;
                 $location.replace();
                 $location.path('/app/login');
+                $location.replace();
             }
 
         });
-
-        $rootScope.slideSideMenu = false;
-        $rootScope.isLoggedIn = false;
 
         $rootScope.$on('$stateChangeStart', function(event, toState) {
             console.log("state change " + toState.name + " " + $rootScope.isLoggedIn);
@@ -72,6 +88,7 @@ angular.module('project41', ['ionic', 'project41.controllers'])
                 console.log("redirect to login");
                 $location.replace();
                 $state.go('app.login');
+                $location.replace();
                 event.preventDefault();
             }
         });

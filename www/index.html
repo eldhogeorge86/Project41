@@ -24,6 +24,38 @@
 </head>
 
 <body ng-app="project41">
-<ion-nav-view></ion-nav-view>
+    <ion-nav-view></ion-nav-view>
+
+    <script id="signUp.html" type="text/ng-template">
+        <div class="modal">
+            <ion-header-bar class="bar-dark">
+                <h1 class="title">SignUp</h1>
+            </ion-header-bar>
+            <ion-content>
+                <form name="signUpForm" ng-submit="createUser(user)">
+                    <div class="list list-inset">
+                        <label class="item item-input">
+                            <span class="input-label">Display Name</span>
+                            <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.name.$invalid"></div>&nbsp;
+                            <input type="text" placeholder="Display Name" ng-model="user.name" required name="name">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Email</span>
+                            <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.email.$invalid"></div>&nbsp;
+                            <input type="email" placeholder="someone@example.com" ng-model="user.email" required name="email">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Password</span>
+                            <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.password.$invalid"></div>&nbsp;
+                            <input type="password" placeholder="password" ng-model="user.password" required name="password">
+                        </label>
+                    </div>
+                    <div class="padding">
+                        <button type="submit" class="button button-positive button-block button-primary">Create</button>
+                    </div>
+                </form>
+            </ion-content>
+        </div>
+    </script>
 </body>
 </html>
