@@ -132,6 +132,24 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                         controller: 'HomeCtrl'
                     }
                 }
+            })
+
+            .state('app.new', {
+                url: "/new",
+                views: {
+                    'menuContent' :{
+                        templateUrl: "templates/new.html"
+                    }
+                }
+            })
+
+            .state('app.search', {
+                url: "/search",
+                views: {
+                    'menuContent' :{
+                        templateUrl: "templates/search.html"
+                    }
+                }
             });
         // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/splash');
