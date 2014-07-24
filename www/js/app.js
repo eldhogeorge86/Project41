@@ -134,11 +134,20 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                 }
             })
 
-            .state('app.new', {
-                url: "/new",
+            .state('app.binary-question', {
+                url: "/binary-question",
                 views: {
                     'menuContent' :{
-                        templateUrl: "templates/new.html"
+                        templateUrl: "templates/binary-question.html"
+                    }
+                }
+            })
+
+            .state('app.question-type', {
+                url: "/question-type",
+                views: {
+                    'menuContent' :{
+                        templateUrl: "templates/question-type.html"
                     }
                 }
             })
