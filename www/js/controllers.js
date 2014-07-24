@@ -3,7 +3,7 @@ angular.module('project41.controllers', [])
     .controller('AppCtrl', function($scope, $state, $rootScope, $location, $window) {
 
         $rootScope.$on('loggedIn', function() {
-            
+
             console.log("loggedIn event");
             $scope.displayName = $rootScope.displayName;
         });
@@ -35,6 +35,13 @@ angular.module('project41.controllers', [])
     })
 
     .controller('HomeCtrl', function($scope, $state) {
+
+        $scope.activeTab = "";
+
+        $scope.onTabSelected = function(title){
+
+            $scope.activeTab = title;
+        }
     })
 
     .controller('LoginCtrl', function ($rootScope, $scope, $state, $location, $ionicLoading, $ionicPopup, $ionicModal) {

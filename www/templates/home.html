@@ -1,8 +1,60 @@
-<ion-view title="Feed" hide-back-button="true">
+<ion-view hide-back-button="true" title="{{activeTab}}">
     <ion-nav-buttons side="left">
         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
     </ion-nav-buttons>
-    <ion-content class="has-header">
+    <ion-tabs class="tabs-icon-only tabs-top">
+        <ion-tab title="{{activeTab}}"
+                 on-select="onTabSelected('My Feed')"
+                 icon-on="ion-ios7-paper"
+                 icon-off="ion-ios7-paper-outline">
 
-    </ion-content>
+
+         </ion-tab>
+
+        <ion-tab title="{{activeTab}}"
+                 on-select="onTabSelected('My Votes')"
+                 icon-on="ion-ios7-checkmark"
+                 icon-off="ion-ios7-checkmark-outline">
+
+
+        </ion-tab>
+
+        <ion-tab title="{{activeTab}}"
+                 on-select="onTabSelected('My Opinions')"
+                 icon-on="ion-ios7-box"
+                 icon-off="ion-ios7-box-outline">
+
+
+        </ion-tab>
+
+        <ion-tab title="{{activeTab}}"
+                 on-select="onTabSelected('Following')"
+                 icon-on="ion-ios7-people"
+                 icon-off="ion-ios7-people-outline">
+
+
+        </ion-tab>
+
+        <ion-tab title="{{activeTab}}"
+                 on-select="onTabSelected('Notifications')"
+                 icon-on="ion-ios7-world"
+                 icon-off="ion-ios7-world-outline">
+
+
+        </ion-tab>
+
+    </ion-tabs>
+    <div class="bar bar-footer bar-positive">
+        <div class="row" style="margin:0px;padding:0px;">
+            <div class="col" style="margin:0px;padding-top:0;padding-bottom:0;">
+
+            </div>
+            <div class="col-20" style="margin:0px;padding-top:0;padding-bottom:0;">
+                <a class="button button-icon icon ion-plus-round" style="width:100%;"></a>
+            </div>
+            <div class="col" style="margin:0px;padding-top:0;padding-bottom:0;">
+
+            </div>
+        </div>
+    </div>
 </ion-view>
