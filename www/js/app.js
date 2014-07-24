@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('project41', ['ionic', 'project41.controllers'])
+angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers'])
 
     .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $window) {
 

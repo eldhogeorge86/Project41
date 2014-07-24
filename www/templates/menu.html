@@ -1,10 +1,19 @@
 <ion-side-menus>
 
   <ion-pane ion-side-menu-content drag-content="slideSideMenu">
-    <ion-nav-bar class="bar-positive nav-title-slide-ios7">
-      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
-    </ion-nav-bar>
-    <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+      <ion-nav-bar class="bar-positive nav-title-slide-ios7" ng-show="isLoggedIn">
+         <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i> Back</ion-nav-back-button>
+      </ion-nav-bar>
+
+      <ion-nav-view name="menuContent" animation="slide-left-right"></ion-nav-view>
+
+      <ion-footer-bar class="bar-positive" ng-show="isLoggedIn">
+          <div class="button-bar">
+              <a class="button button-clear button-icon icon ion-home" href="#/app/home"></a>
+              <a class="button button-clear button-icon icon ion-plus-round"></a>
+              <a class="button button-clear button-icon icon ion-search"></a>
+          </div>
+      </ion-footer-bar>
   </ion-pane>
 
   <ion-side-menu side="left">
