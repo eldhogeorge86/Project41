@@ -17,6 +17,8 @@ angular.module('home.controllers', [])
 
         $scope.question = Question;
 
+        $scope.questions = [];
+
         $scope.activeTab = "";
 
         $scope.onTabSelected = function(title){
@@ -101,12 +103,21 @@ angular.module('home.controllers', [])
         };
 
         $scope.query = function (){
-            parseObject.queryQuestions(function(result){
 
-                console.log("Query Result : " + result.questions[0].data);
-            }, function(){
+            if(typeof parseObject!= "undefined") {
+                parseObject.queryQuestions(function (result) {
 
-            });
+                    console.log("Query Result length: " + result.questions.length);
+                    for(var i=0;i<result.questions.length;i++){
+                        $scope.questions.push(result.questions[i]);
+                    }
+                }, function () {
+
+                });
+            }
+            else{
+                $scope.questions = ["1", "2"];
+            }
         };
 
         $scope.query();
