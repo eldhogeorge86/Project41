@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers'])
 
-    .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $window) {
+    .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $ionicViewService) {
 
         $rootScope.slideSideMenu = false;
         $rootScope.isLoggedIn = false;
@@ -77,6 +77,10 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
 
         });
 
+        $ionicPlatform.registerBackButtonAction(function () {
+            navigator.app.exitApp();
+        }, 1000);
+
         $rootScope.$on('$stateChangeStart', function(event, toState) {
             console.log("state change " + toState.name + " " + $rootScope.isLoggedIn);
             if (toState.name == "app.login" && $rootScope.isLoggedIn == true) {
@@ -93,6 +97,11 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
             }
         });
 
+        $rootScope.$on('$stateChangeStart', function(event, toState) {
+            if (toState.name == "app.home"){
+                $ionicViewService.clearHistory();
+            }
+        });
     })
 
     .config(function($stateProvider, $urlRouterProvider) {
@@ -134,11 +143,12 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                 }
             })
 
-            .state('app.binary-question', {
-                url: "/binary-question",
+            .state('app.multiple-question', {
+                url: "/multiple-question",
                 views: {
                     'menuContent' :{
-                        templateUrl: "templates/binary-question.html"
+                        templateUrl: "templates/question.html",
+                        controller: 'HomeCtrl'
                     }
                 }
             })
@@ -147,7 +157,8 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                 url: "/question-type",
                 views: {
                     'menuContent' :{
-                        templateUrl: "templates/question-type.html"
+                        templateUrl: "templates/question-type.html",
+                        controller: 'HomeCtrl'
                     }
                 }
             })

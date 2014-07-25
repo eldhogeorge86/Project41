@@ -9,8 +9,8 @@
 
       <ion-footer-bar class="bar-positive" ng-show="isLoggedIn">
           <div class="button-bar">
-              <a class="button button-clear button-icon icon ion-home" href="#/app/home"></a>
-              <a class="button button-clear button-icon icon ion-plus-round" href="#/app/question-type"></a>
+              <a class="button button-clear button-icon icon ion-home" ng-click="goHome()"></a>
+              <a class="button button-clear button-icon icon ion-plus-round" ng-click="openAskQuestion()"></a>
               <a class="button button-clear button-icon icon ion-search" href="#/app/search"></a>
           </div>
       </ion-footer-bar>

@@ -34,6 +34,9 @@
         <div class="modal">
             <ion-header-bar class="bar-dark">
                 <h1 class="title">SignUp</h1>
+                <div class="buttons">
+                    <button class="button button-clear" ng-click="closeSignUp()">Cancel</button>
+                </div>
             </ion-header-bar>
             <ion-content>
                 <form name="signUpForm" ng-submit="createUser(user)">
