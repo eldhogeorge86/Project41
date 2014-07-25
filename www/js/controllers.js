@@ -54,6 +54,10 @@ angular.module('project41.controllers', [])
 
     .controller('LoginCtrl', function ($rootScope, $scope, $state, $location, $ionicLoading, $ionicPopup, $ionicModal) {
 
+        $scope.newUser = {
+
+        };
+
         $ionicModal.fromTemplateUrl('signUp.html', function(modal) {
                 $scope.signUpView = modal;
             },
@@ -74,6 +78,10 @@ angular.module('project41.controllers', [])
 
         $scope.signUp = function(){
 
+            $scope.newUser = {
+
+            };
+            
             $scope.signUpView.show();
         };
 
@@ -107,15 +115,15 @@ angular.module('project41.controllers', [])
             }
         };
 
-        $scope.createUser = function(user)  {
+        $scope.createUser = function()  {
 
-            if(!user.name || !user.email || !user.password)
+            if(!$scope.newUser.name || !$scope.newUser.email || !$scope.newUser.password)
             {
                 return;
             }
 
             $scope.showLoading();
-            parseObject.signup(user.name, user.email, user.password, function(ret){
+            parseObject.signup($scope.newUser, function(ret){
 
                 $scope.hideLoading();
                 $rootScope.displayName = ret.name;

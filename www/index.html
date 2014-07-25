@@ -44,17 +44,45 @@
                         <label class="item item-input">
                             <span class="input-label">Display Name</span>
                             <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.name.$invalid"></div>&nbsp;
-                            <input type="text" placeholder="Display Name" ng-model="user.name" required name="name">
+                            <input type="text" placeholder="Display Name" ng-model="newUser.name" required name="name">
                         </label>
                         <label class="item item-input">
                             <span class="input-label">Email</span>
                             <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.email.$invalid"></div>&nbsp;
-                            <input type="email" placeholder="someone@example.com" ng-model="user.email" required name="email">
+                            <input type="email" placeholder="someone@example.com" ng-model="newUser.email" required name="email">
                         </label>
                         <label class="item item-input">
                             <span class="input-label">Password</span>
                             <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="signUpForm.password.$invalid"></div>&nbsp;
-                            <input type="password" placeholder="password" ng-model="user.password" required name="password">
+                            <input type="password" placeholder="password" ng-model="newUser.password" required name="password">
+                        </label>
+
+                        <label class="item item-input">
+                            <span class="input-label">Last Name</span>
+                            <input type="text" placeholder="Last Name" ng-model="newUser.lname">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">First Name</span>
+                            <input type="text" placeholder="First Name" ng-model="newUser.fname">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Sex</span>
+                            <select ng-model="newUser.sex">
+                                <option>Male</option>
+                                <option>Female</option>
+                            </select>
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Date of Birth</span>
+                            <input type="date" placeholder="Date of Birth" ng-model="newUser.dob">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Country</span>
+                            <input type="text" placeholder="Country" ng-model="newUser.country">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">City</span>
+                            <input type="text" placeholder="City" ng-model="newUser.city">
                         </label>
                     </div>
                     <div class="padding">

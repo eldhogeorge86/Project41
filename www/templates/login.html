@@ -14,11 +14,9 @@
 
             <form name="loginForm" ng-submit="login(user)">
                 <label class="item item-input">
-                    <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="loginForm.email.$invalid"></div>&nbsp;
                     <input type="email" placeholder="someone@example.com" ng-model="user.email" required name="email">
                 </label>
                 <label class="item item-input">
-                    <div style="width:5px;height:34px;background-color:#ef4e3a;" ng-show="loginForm.password.$invalid"></div>&nbsp;
                     <input type="password" placeholder="Password" ng-model="user.password" required name="password">
                 </label>
 

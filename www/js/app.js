@@ -77,10 +77,6 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
 
         });
 
-        $ionicPlatform.registerBackButtonAction(function () {
-            navigator.app.exitApp();
-        }, 1000);
-
         $rootScope.$on('$stateChangeStart', function(event, toState) {
             console.log("state change " + toState.name + " " + $rootScope.isLoggedIn);
             if (toState.name == "app.login" && $rootScope.isLoggedIn == true) {
@@ -97,11 +93,6 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
             }
         });
 
-        $rootScope.$on('$stateChangeStart', function(event, toState) {
-            if (toState.name == "app.home"){
-                $ionicViewService.clearHistory();
-            }
-        });
     })
 
     .config(function($stateProvider, $urlRouterProvider) {
