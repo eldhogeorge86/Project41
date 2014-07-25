@@ -77,6 +77,14 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
 
         });
 
+        $ionicPlatform.onHardwareBackButton(function(){
+            console.log("back button " + $location.$$url);
+            if($location.$$url == "/app/home"){
+                console.log("exit app back button");
+                navigator.app.exitApp();
+            }
+        });
+
         $rootScope.$on('$stateChangeStart', function(event, toState) {
             console.log("state change " + toState.name + " " + $rootScope.isLoggedIn);
             if (toState.name == "app.login" && $rootScope.isLoggedIn == true) {

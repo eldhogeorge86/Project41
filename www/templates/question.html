@@ -1,5 +1,7 @@
 <ion-view hide-back-button="true" title="New Question">
-
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-checkmark" ng-click="askQuestion()"></button>
+    </ion-nav-buttons>
     <ion-content>
         <div class="list list-inset">
 
@@ -23,7 +25,7 @@
                 <input type="text" placeholder="Answer 5" ng-model="question.answer5">
             </label>
 
-            <button class="button button-assertive button-block" ng-click="askQuestion()">Ask</button>
+            <button class="button button-dark button-block" ng-click="askQuestion()">Ask</button>
         </div>
     </ion-content>
 </ion-view>

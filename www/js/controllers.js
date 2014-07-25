@@ -81,7 +81,7 @@ angular.module('project41.controllers', [])
             $scope.newUser = {
 
             };
-            
+
             $scope.signUpView.show();
         };
 

@@ -17,6 +17,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"ParsePlugin\"><param name=\"android-package\" value=\"com.conzole.parseplugin.ParseExtension\" /></feature>",
                             "count": 1
                         }
@@ -26,6 +30,10 @@
             "AndroidManifest.xml": {
                 "parents": {
                     "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 1
+                        },
                         {
                             "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
                             "count": 1
@@ -53,6 +61,9 @@
             "PACKAGE_NAME": "com.conzole.project41"
         },
         "org.apache.cordova.console": {
+            "PACKAGE_NAME": "com.conzole.project41"
+        },
+        "org.apache.cordova.camera": {
             "PACKAGE_NAME": "com.conzole.project41"
         },
         "com.conzole.parseplugin": {
