@@ -48,51 +48,104 @@ public class ParseExtension extends CordovaPlugin {
 			}
 			
 			if (action.equals("fbLogin")) {
-				fbLogin(cordova.getActivity(), callbackContext);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+
+		            	fbLogin(cordova.getActivity(), callbackContext);
+		            }
+		        });
+				
 				return true;
 			}
 			
 			if (action.equals("signup")) {
-				JSONObject arg_object = args.getJSONObject(0);
-				signUp(arg_object, callbackContext);
+				final JSONObject arg_object = args.getJSONObject(0);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+						signUp(arg_object, callbackContext);
+		            }
+		        });				
 				return true;
 			}
 			
 			if (action.equals("updateUser")) {
-				JSONObject arg_object = args.getJSONObject(0);
-				updateUser(arg_object, callbackContext);
+				final JSONObject arg_object = args.getJSONObject(0);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	updateUser(arg_object, callbackContext);
+		            }
+		        });	
+				
 				return true;
 			}
 			
 			if (action.equals("askQuestion")) {
-				JSONObject arg_object = args.getJSONObject(0);
-				askQuestion(arg_object, callbackContext);
+				final JSONObject arg_object = args.getJSONObject(0);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	askQuestion(arg_object, callbackContext);
+		            }
+		        });	
+				
 				return true;
 			}
 			
 			if (action.equals("queryQuestions")) {
-				queryQuestions(callbackContext);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	queryQuestions(callbackContext);
+		            }
+		        });	
+				
 				return true;
 			}
 			
 			if (action.equals("login")) {
-				JSONObject arg_object = args.getJSONObject(0);
-				logIn(arg_object.getString("user"), arg_object.getString("password"), callbackContext);
+				final JSONObject arg_object = args.getJSONObject(0);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	logIn(arg_object, callbackContext);
+		            }
+		        });
+				
 				return true;
 			}
 			
 			if (action.equals("logout")) {
-				logOut(callbackContext);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	logOut(callbackContext);
+		            }
+		        });
+				
 				return true;
 			}
 			
 			if (action.equals("isLoggedIn")) {
-				isLoggedIn(callbackContext);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	isLoggedIn(callbackContext);
+		            }
+		        });
+				
 				return true;
 			}
 			
 			if (action.equals("isFbLinked")) {
-				isFbLinked(callbackContext);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	isFbLinked(callbackContext);
+		            }
+		        });
+				
 				return true;
 			}
 			
@@ -107,7 +160,7 @@ public class ParseExtension extends CordovaPlugin {
 	}
 
 	private void queryQuestions(final CallbackContext callbackContext){
-		ParseUser currentUser = ParseUser.getCurrentUser();
+		ParseUser currentUser = ParseUser.getCurrentUser();		
 		
 		ParseQuery<ParseObject> query = ParseQuery.getQuery("Question");
 		query.include("user");
@@ -116,6 +169,7 @@ public class ParseExtension extends CordovaPlugin {
 		query.include("answer3");
 		query.include("answer4");
 		query.include("answer5");
+		query.orderByDescending("updatedAt");
 		query.findInBackground(new FindCallback<ParseObject>() {
 		    public void done(List<ParseObject> qList, ParseException e) {
 		        if (e == null) {
@@ -215,20 +269,27 @@ public class ParseExtension extends CordovaPlugin {
 		}
 	}
 	
-	private void logIn(String userName, String password, final CallbackContext callbackContext){
-		ParseUser.logInInBackground(userName, password, new LogInCallback() {
-			  public void done(ParseUser user, ParseException e) {
-			    if (user != null) {
-					JSONObject ret = getCurrentUser();
-					Log.d(TAG, "User logged in!");
-					callbackContext.success(ret);
-			    } else {
-			      // Signup failed. Look at the ParseException to see what happened.
-			    	Log.d(TAG, "Exception: " + e.getMessage());
-				    callbackContext.error(e.getMessage());
-			    }
-			  }
-			});
+	private void logIn(JSONObject arg_object, final CallbackContext callbackContext){
+		try {
+			String userName = arg_object.getString("user");
+			String password = arg_object.getString("password");
+			ParseUser.logInInBackground(userName, password, new LogInCallback() {
+				  public void done(ParseUser user, ParseException e) {
+				    if (user != null) {
+						JSONObject ret = getCurrentUser();
+						Log.d(TAG, "User logged in!");
+						callbackContext.success(ret);
+				    } else {
+				      // Signup failed. Look at the ParseException to see what happened.
+				    	Log.d(TAG, "Exception: " + e.getMessage());
+					    callbackContext.error(e.getMessage());
+				    }
+				  }
+				});
+		} catch (JSONException e) {
+			Log.e(TAG, "logIn Bad thing happened with profile json", e);
+			callbackContext.error("json exception");
+		}
 	}
 	
 	private void isLoggedIn(final CallbackContext callbackContext){

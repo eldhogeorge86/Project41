@@ -92,7 +92,7 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                 navigator.app.exitApp();
                 return;
             }
-            if (toState.name !== "app.login" && toState.name !== "app.logout" && $rootScope.isLoggedIn == false) {
+            if (toState.name !== "app.login" && toState.name !== "app.logout" && toState.name !== "app.splash" && $rootScope.isLoggedIn == false) {
                 console.log("redirect to login");
                 $location.replace();
                 $state.go('app.login');
@@ -142,22 +142,12 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
                 }
             })
 
-            .state('app.multiple-question', {
-                url: "/multiple-question",
+            .state('app.ask-question', {
+                url: "/ask-question",
                 views: {
                     'menuContent' :{
                         templateUrl: "templates/question.html",
-                        controller: 'HomeCtrl'
-                    }
-                }
-            })
-
-            .state('app.question-type', {
-                url: "/question-type",
-                views: {
-                    'menuContent' :{
-                        templateUrl: "templates/question-type.html",
-                        controller: 'HomeCtrl'
+                        controller: 'AskQuestionCtrl'
                     }
                 }
             })

@@ -1,21 +1,16 @@
 
 angular.module('home.controllers', [])
 
-    .factory('Question', function(){
+    .factory('DBService', function(){
         return {
-            type : "",
-            data : "",
-            answer1 : "",
-            answer2 : "",
-            answer3 : "",
-            answer4 : "",
-            answer5 : ""
+            results: [],
+            query: function(){
+
+            }
         };
     })
 
-    .controller('HomeCtrl', function($scope, $state, Question, $location, $ionicLoading, $ionicPopup) {
-
-        $scope.question = Question;
+    .controller('HomeCtrl', function($scope, $state, DBService, $location, $ionicLoading, $ionicPopup) {
 
         $scope.questions = [];
 
@@ -26,37 +21,86 @@ angular.module('home.controllers', [])
             $scope.activeTab = title;
         };
 
-        $scope.typeChanged = function(type){
+        $scope.showLoading = function(txt) {
+            $ionicLoading.show({
+                template: txt
+            });
+        };
 
-            $scope.question.type = type;
+        $scope.hideLoading = function(){
+            $ionicLoading.hide();
+        };
+
+        $scope.query = function (){
+
+            $scope.showLoading('Loading...');
+
+            if(typeof parseObject!= "undefined") {
+                parseObject.queryQuestions(function (result) {
+
+                    console.log("Query Result length: " + result.questions.length);
+
+                    $scope.questions = result.questions;
+                    $scope.hideLoading();
+                }, function () {
+                    $scope.hideLoading();
+                });
+            }
+            else{
+                $scope.hideLoading();
+            }
+        };
+
+        $scope.query();
+    })
+
+    .controller('AskQuestionCtrl', function($scope, $state, DBService, $location, $ionicLoading, $ionicPopup) {
+
+        $scope.question = {
+            data : "",
+            answer1 : "",
+            answer2 : "",
+            answer3 : "",
+            answer4 : "",
+            answer5 : ""
+        };
+
+        $scope.showLoading = function(txt) {
+            $ionicLoading.show({
+                template: txt
+            });
+        };
+
+        $scope.hideLoading = function(){
+            $ionicLoading.hide();
         };
 
         $scope.askQuestion = function(){
 
             var answers = [];
-            if(Question.answer1 && Question.answer1.trim().length >0){
-                answers.push(Question.answer1.trim());
+            if($scope.question.answer1 && $scope.question.answer1.trim().length >0){
+                answers.push($scope.question.answer1.trim());
             }
-            if(Question.answer2 && Question.answer2.trim().length >0){
-                answers.push(Question.answer2.trim());
+            if($scope.question.answer2 && $scope.question.answer2.trim().length >0){
+                answers.push($scope.question.answer2.trim());
             }
-            if(Question.answer3 && Question.answer3.trim().length >0){
-                answers.push(Question.answer3.trim());
+            if($scope.question.answer3 && $scope.question.answer3.trim().length >0){
+                answers.push($scope.question.answer3.trim());
             }
-            if(Question.answer4 && Question.answer4.trim().length >0){
-                answers.push(Question.answer1.trim());
+            if($scope.question.answer4 && $scope.question.answer4.trim().length >0){
+                answers.push($scope.question.answer1.trim());
             }
-            if(Question.answer5 && Question.answer5.trim().length >0){
-                answers.push(Question.answer5.trim());
+            if($scope.question.answer5 && $scope.question.answer5.trim().length >0){
+                answers.push($scope.question.answer5.trim());
             }
 
-            if(!Question.data || Question.data.trim().length < 10 || answers.length < 2){
+            if(!$scope.question.data || $scope.question.data.trim().length < 10 || answers.length < 2){
                 return;
             }
 
             var qObject = $scope.prepareQuestion(answers);
 
-            $scope.showLoading();
+            $scope.showLoading('Saving...');
 
             parseObject.askQuestion(qObject, function(){
 
@@ -73,7 +117,7 @@ angular.module('home.controllers', [])
 
         $scope.prepareQuestion = function(answers){
             var q = {
-                data : Question.data.trim(),
+                data : $scope.question.data.trim(),
                 answers : answers
             };
 
@@ -91,34 +135,4 @@ angular.module('home.controllers', [])
 
             return q;
         };
-
-        $scope.showLoading = function() {
-            $ionicLoading.show({
-                template: 'Saving...'
-            });
-        };
-
-        $scope.hideLoading = function(){
-            $ionicLoading.hide();
-        };
-
-        $scope.query = function (){
-
-            if(typeof parseObject!= "undefined") {
-                parseObject.queryQuestions(function (result) {
-
-                    console.log("Query Result length: " + result.questions.length);
-                    for(var i=0;i<result.questions.length;i++){
-                        $scope.questions.push(result.questions[i]);
-                    }
-                }, function () {
-
-                });
-            }
-            else{
-                $scope.questions = ["1", "2"];
-            }
-        };
-
-        $scope.query();
     });

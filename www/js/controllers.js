@@ -1,6 +1,6 @@
 angular.module('project41.controllers', [])
 
-    .controller('AppCtrl', function($scope, $state, $rootScope, $location, $ionicViewService, Question) {
+    .controller('AppCtrl', function($scope, $state, $rootScope, $location, $ionicViewService) {
 
         $rootScope.$on('loggedIn', function() {
 
@@ -40,15 +40,7 @@ angular.module('project41.controllers', [])
 
         $scope.openAskQuestion = function(){
 
-            Question.type = "";
-            Question.data = "";
-            Question.answer1 = "";
-            Question.answer2 = "";
-            Question.answer3 = "";
-            Question.answer4 = "";
-            Question.answer5 = "";
-
-            $state.go("app.question-type");
+            $state.go("app.ask-question");
         };
     })
 
