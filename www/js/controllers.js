@@ -1,6 +1,6 @@
 angular.module('project41.controllers', [])
 
-    .controller('AppCtrl', function($scope, $state, $rootScope, $location, $ionicViewService) {
+    .controller('AppCtrl', function($scope, $state, $rootScope, $location, $ionicViewService, $ionicLoading) {
 
         $rootScope.$on('loggedIn', function() {
 
@@ -12,6 +12,7 @@ angular.module('project41.controllers', [])
 
         $scope.logout = function () {
 
+            $scope.showLoading();
             if(typeof parseObject!= "undefined")
             {
                 parseObject.logout(function(){
@@ -21,7 +22,7 @@ angular.module('project41.controllers', [])
                     $location.replace();
                     $location.path('/app/login');
                     $location.replace();
-
+                    $scope.hideLoading();
                 }, function(){});
             }
             else{
@@ -30,6 +31,7 @@ angular.module('project41.controllers', [])
                 $location.replace();
                 $location.path('/app/login');
                 $location.replace();
+                $scope.hideLoading();
             }
         };
 
@@ -41,6 +43,16 @@ angular.module('project41.controllers', [])
         $scope.openAskQuestion = function(){
 
             $state.go("app.ask-question");
+        };
+
+        $scope.showLoading = function() {
+            $ionicLoading.show({
+                template: 'Logging out...'
+            });
+        };
+
+        $scope.hideLoading = function(){
+            $ionicLoading.hide();
         };
     })
 

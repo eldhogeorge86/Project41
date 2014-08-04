@@ -218,7 +218,7 @@ angular.module('home.controllers', [])
                 answers.push($scope.question.answer3.trim());
             }
             if($scope.question.answer4 && $scope.question.answer4.trim().length >0){
-                answers.push($scope.question.answer1.trim());
+                answers.push($scope.question.answer4.trim());
             }
             if($scope.question.answer5 && $scope.question.answer5.trim().length >0){
                 answers.push($scope.question.answer5.trim());
