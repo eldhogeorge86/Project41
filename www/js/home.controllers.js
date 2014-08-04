@@ -62,10 +62,10 @@ angular.module('home.controllers', [])
                         },
                         answer2 : {
                             text : "no"
-                        }
+                        },
+                        toAnswer : false
                     }
                 ];
-                $scope.prepareAnswers();
                 $scope.hideLoading();
             }
         };
@@ -79,8 +79,10 @@ angular.module('home.controllers', [])
             $scope.showLoading('Voting...');
 
             parseObject.voteAnswer(voteObj, function(){
+                qs.count++;
                 ans.count++;
                 ans.voters.push(DBService.user.id);
+                $scope.calculatePercentage();
                 qs.toAnswer = false;
                 $scope.hideLoading();
             }, function(){
@@ -97,6 +99,7 @@ angular.module('home.controllers', [])
                 $scope.questions[i].hasAnswer5 = $scope.questions[i].answer5 != null;
 
                 $scope.questions[i].toAnswer = true;
+                $scope.questions[i].count = 0;
 
                 if ($scope.questions[i].hasAnswer1) {
                     if (typeof $scope.questions[i].answer1.voters == 'undefined') {
@@ -106,6 +109,8 @@ angular.module('home.controllers', [])
                             $scope.questions[i].toAnswer = false;
                         }
                     }
+                    $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer1.count;
+                    $scope.questions[i].answer1.percent = 0;
                 }
                 if ($scope.questions[i].hasAnswer2) {
                     if (typeof $scope.questions[i].answer2.voters == 'undefined') {
@@ -115,6 +120,8 @@ angular.module('home.controllers', [])
                             $scope.questions[i].toAnswer = false;
                         }
                     }
+                    $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer2.count;
+                    $scope.questions[i].answer2.percent = 0;
                 }
                 if ($scope.questions[i].hasAnswer3) {
                     if (typeof $scope.questions[i].answer3.voters == 'undefined') {
@@ -124,6 +131,8 @@ angular.module('home.controllers', [])
                             $scope.questions[i].toAnswer = false;
                         }
                     }
+                    $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer3.count;
+                    $scope.questions[i].answer3.percent = 0;
                 }
                 if ($scope.questions[i].hasAnswer4) {
                     if (typeof $scope.questions[i].answer4.voters == 'undefined') {
@@ -133,6 +142,8 @@ angular.module('home.controllers', [])
                             $scope.questions[i].toAnswer = false;
                         }
                     }
+                    $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer4.count;
+                    $scope.questions[i].answer4.percent = 0;
                 }
                 if ($scope.questions[i].hasAnswer5) {
                     if (typeof $scope.questions[i].answer5.voters == 'undefined') {
@@ -142,6 +153,30 @@ angular.module('home.controllers', [])
                             $scope.questions[i].toAnswer = false;
                         }
                     }
+                    $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer5.count;
+                    $scope.questions[i].answer5.percent = 0;
+                }
+            }
+
+            $scope.calculatePercentage();
+        };
+
+        $scope.calculatePercentage = function(){
+            for(var i=0;i<$scope.questions.length;i++) {
+                if ($scope.questions[i].hasAnswer1 && $scope.questions[i].count > 0) {
+                    $scope.questions[i].answer1.percent = Math.round($scope.questions[i].answer1.count * 100 / $scope.questions[i].count);
+                }
+                if ($scope.questions[i].hasAnswer2 && $scope.questions[i].count > 0) {
+                    $scope.questions[i].answer2.percent = Math.round($scope.questions[i].answer2.count * 100 / $scope.questions[i].count);
+                }
+                if ($scope.questions[i].hasAnswer3 && $scope.questions[i].count > 0) {
+                    $scope.questions[i].answer3.percent = Math.round($scope.questions[i].answer3.count * 100 / $scope.questions[i].count);
+                }
+                if ($scope.questions[i].hasAnswer4 && $scope.questions[i].count > 0) {
+                    $scope.questions[i].answer4.percent = Math.round($scope.questions[i].answer4.count * 100 / $scope.questions[i].count);
+                }
+                if ($scope.questions[i].hasAnswer5 && $scope.questions[i].count > 0) {
+                    $scope.questions[i].answer5.percent = Math.round($scope.questions[i].answer5.count * 100 / $scope.questions[i].count);
                 }
             }
         };
