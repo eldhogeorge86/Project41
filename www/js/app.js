@@ -6,7 +6,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers'])
 
-    .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $ionicViewService) {
+    .run(function($rootScope, $state, $ionicPlatform, $ionicLoading, $location, $ionicViewService, DBService) {
 
         $rootScope.slideSideMenu = false;
         $rootScope.isLoggedIn = false;
@@ -39,8 +39,14 @@ angular.module('project41', ['ionic', 'project41.controllers', 'home.controllers
 
                 parseObject.isLoggedIn(function(ret){
                         if(ret != null && ret.exists) {
+
                             console.log("already logged in, redirect to home");
                             console.log("display name : " + ret.name);
+                            console.log("user oid : " + ret.oid);
+
+                            DBService.user.name = ret.name;
+                            DBService.user.id = ret.oid;
+
                             $rootScope.displayName = ret.name;
                             $rootScope.isLoggedIn = true;
                             $rootScope.slideSideMenu = true;

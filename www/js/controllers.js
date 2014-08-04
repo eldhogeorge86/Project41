@@ -44,7 +44,7 @@ angular.module('project41.controllers', [])
         };
     })
 
-    .controller('LoginCtrl', function ($rootScope, $scope, $state, $location, $ionicLoading, $ionicPopup, $ionicModal) {
+    .controller('LoginCtrl', function ($rootScope, $scope, $state, $location, $ionicLoading, $ionicPopup, $ionicModal, DBService) {
 
         $scope.newUser = {
 
@@ -83,7 +83,13 @@ angular.module('project41.controllers', [])
             {
                 $scope.showLoading();
 
-                parseObject.fbLogin(function(){
+                parseObject.fbLogin(function(ret){
+
+                    DBService.user.name = ret.name;
+                    DBService.user.id = ret.oid;
+
+                    $rootScope.displayName = ret.name;
+
                     console.log("login success, redirect to home");
                     $rootScope.isLoggedIn = true;
                     $location.replace();
@@ -118,6 +124,10 @@ angular.module('project41.controllers', [])
             parseObject.signup($scope.newUser, function(ret){
 
                 $scope.hideLoading();
+
+                DBService.user.name = ret.name;
+                DBService.user.id = ret.oid;
+
                 $rootScope.displayName = ret.name;
                 $rootScope.$broadcast("loggedIn");
 
@@ -156,6 +166,10 @@ angular.module('project41.controllers', [])
 
             parseObject.login(user.email, user.password, function(ret){
                 $scope.hideLoading();
+
+                DBService.user.name = ret.name;
+                DBService.user.id = ret.oid;
+
                 $rootScope.displayName = ret.name;
                 $rootScope.$broadcast("loggedIn");
                 $rootScope.isLoggedIn = true;

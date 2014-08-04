@@ -11,27 +11,19 @@
             <ion-content style="background-color: #dddddd;">
                 <div class="list card" ng-repeat="qs in questions">
                     <div class="item">
-                        <h2>{{qs.user.name}}</h2>
+                        <h2 class="title">{{qs.user.name}}</h2>
                     </div>
 
                     <div class="item item-body">
-                        <p>
-                            {{qs.data}}
-                        </p>
-                        <p>
-                            <a href="#" class="subdued">5 Comments</a>
-                        </p>
+                        <h1 class="title">{{qs.data}}</h1>
                     </div>
 
-                    <div class="item tabs tabs-secondary tabs-icon-left">
-                        <a class="tab-item" href="#">
-                            <i class="icon ion-chatbox"></i>
-                            Comment
-                        </a>
-                        <a class="tab-item" href="#">
-                            <i class="icon ion-share"></i>
-                            Share
-                        </a>
+                    <div class="item" ng-show="qs.toAnswer">
+                        <button class="button button-block" ng-click="vote(qs, qs.answer1)" ng-show="qs.hasAnswer1">{{qs.answer1.text}}</button>
+                        <button class="button button-block" ng-click="vote(qs, qs.answer2)" ng-show="qs.hasAnswer2">{{qs.answer2.text}}</button>
+                        <button class="button button-block" ng-click="vote(qs, qs.answer3)" ng-show="qs.hasAnswer3">{{qs.answer3.text}}</button>
+                        <button class="button button-block" ng-click="vote(qs, qs.answer4)" ng-show="qs.hasAnswer4">{{qs.answer4.text}}</button>
+                        <button class="button button-block" ng-click="vote(qs, qs.answer5)" ng-show="qs.hasAnswer5">{{qs.answer5.text}}</button>
                     </div>
 
                 </div>

@@ -6,6 +6,9 @@ angular.module('home.controllers', [])
             results: [],
             query: function(){
 
+            },
+            user:{
+
             }
         };
     })
@@ -41,13 +44,105 @@ angular.module('home.controllers', [])
                     console.log("Query Result length: " + result.questions.length);
 
                     $scope.questions = result.questions;
+                    $scope.prepareAnswers();
                     $scope.hideLoading();
                 }, function () {
                     $scope.hideLoading();
                 });
             }
             else{
+                $scope.questions = [
+                    {
+                        data : "test question?",
+                        user:{
+                            name: "eg"
+                        },
+                        answer1 : {
+                            text : "yes"
+                        },
+                        answer2 : {
+                            text : "no"
+                        }
+                    }
+                ];
+                $scope.prepareAnswers();
                 $scope.hideLoading();
+            }
+        };
+
+        $scope.vote = function(qs, ans){
+            var voteObj = {
+                "ans_id" : ans.id,
+                "user_id" : DBService.user.id
+            };
+
+            $scope.showLoading('Voting...');
+
+            parseObject.voteAnswer(voteObj, function(){
+                ans.count++;
+                ans.voters.push(DBService.user.id);
+                qs.toAnswer = false;
+                $scope.hideLoading();
+            }, function(){
+                $scope.hideLoading();
+            });
+        };
+
+        $scope.prepareAnswers = function(){
+            for(var i=0;i<$scope.questions.length;i++) {
+                $scope.questions[i].hasAnswer1 = $scope.questions[i].answer1 != null;
+                $scope.questions[i].hasAnswer2 = $scope.questions[i].answer2 != null;
+                $scope.questions[i].hasAnswer3 = $scope.questions[i].answer3 != null;
+                $scope.questions[i].hasAnswer4 = $scope.questions[i].answer4 != null;
+                $scope.questions[i].hasAnswer5 = $scope.questions[i].answer5 != null;
+
+                $scope.questions[i].toAnswer = true;
+
+                if ($scope.questions[i].hasAnswer1) {
+                    if (typeof $scope.questions[i].answer1.voters == 'undefined') {
+                        $scope.questions[i].answer1.voters = [];
+                    } else {
+                        if ($scope.questions[i].answer1.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].toAnswer = false;
+                        }
+                    }
+                }
+                if ($scope.questions[i].hasAnswer2) {
+                    if (typeof $scope.questions[i].answer2.voters == 'undefined') {
+                        $scope.questions[i].answer2.voters = [];
+                    } else {
+                        if ($scope.questions[i].answer2.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].toAnswer = false;
+                        }
+                    }
+                }
+                if ($scope.questions[i].hasAnswer3) {
+                    if (typeof $scope.questions[i].answer3.voters == 'undefined') {
+                        $scope.questions[i].answer3.voters = [];
+                    } else {
+                        if ($scope.questions[i].answer3.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].toAnswer = false;
+                        }
+                    }
+                }
+                if ($scope.questions[i].hasAnswer4) {
+                    if (typeof $scope.questions[i].answer4.voters == 'undefined') {
+                        $scope.questions[i].answer4.voters = [];
+                    } else {
+                        if ($scope.questions[i].answer4.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].toAnswer = false;
+                        }
+                    }
+                }
+                if ($scope.questions[i].hasAnswer5) {
+                    if (typeof $scope.questions[i].answer5.voters == 'undefined') {
+                        $scope.questions[i].answer5.voters = [];
+                    } else {
+                        if ($scope.questions[i].answer5.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].toAnswer = false;
+                        }
+                    }
+                }
             }
         };
 

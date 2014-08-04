@@ -115,6 +115,16 @@ var parseObject = {
             [ questionObject ]
         ); 
 	},
+	
+	voteAnswer : function(ansObject, successCallback, errorCallback){
+		cordova.exec(
+            successCallback, // success callback function
+            errorCallback, // error callback function
+            'ParsePlugin', // mapped to our native Java class called "ParseExtension"
+            'voteAnswer', // with this action name
+            [ ansObject ]
+        ); 
+	},
 }
 
 module.exports = parseObject;

@@ -8,7 +8,12 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import com.facebook.Request;
+import com.facebook.Request.GraphUserCallback;
+import com.facebook.Response;
+import com.facebook.model.GraphUser;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
@@ -149,6 +154,18 @@ public class ParseExtension extends CordovaPlugin {
 				return true;
 			}
 			
+			if (action.equals("voteAnswer")) {
+				final JSONObject arg_object = args.getJSONObject(0);
+				cordova.getThreadPool().execute(new Runnable() {
+		            public void run() {
+		            	
+		            	voteAnswer(arg_object, callbackContext);
+		            }
+		        });
+				
+				return true;
+			}
+			
 			callbackContext.error("Invalid action");
 		    return false;
 		} catch(Exception e) {
@@ -191,12 +208,12 @@ public class ParseExtension extends CordovaPlugin {
 			JSONArray array = new JSONArray();
 			for (ParseObject question : qList) {
 				JSONObject jsonQ = new JSONObject();
-				jsonQ.put("id", question.getString("objectId"));
+				jsonQ.put("id", question.getObjectId());
 				jsonQ.put("data", question.getString("data"));
 				
 				ParseObject user = question.getParseObject("user");
 				JSONObject jsonUser = new JSONObject();
-				jsonUser.put("id", user.getString("objectId"));
+				jsonUser.put("id", user.getObjectId());
 				jsonUser.put("name", user.getString("name"));
 				
 				jsonQ.put("user", jsonUser);
@@ -205,9 +222,10 @@ public class ParseExtension extends CordovaPlugin {
 					ParseObject answer = question.getParseObject("answer1");
 					JSONObject jsonAns = new JSONObject();
 					
-					jsonAns.put("id", answer.getString("objectId"));
+					jsonAns.put("id", answer.getObjectId());
 					jsonAns.put("text", answer.getString("text"));
 					jsonAns.put("count", answer.getInt("count"));
+					jsonAns.put("voters", answer.getJSONArray("voters"));
 					
 					jsonQ.put("answer1", jsonAns);
 				}
@@ -216,9 +234,10 @@ public class ParseExtension extends CordovaPlugin {
 					ParseObject answer = question.getParseObject("answer2");
 					JSONObject jsonAns = new JSONObject();
 					
-					jsonAns.put("id", answer.getString("objectId"));
+					jsonAns.put("id", answer.getObjectId());
 					jsonAns.put("text", answer.getString("text"));
 					jsonAns.put("count", answer.getInt("count"));
+					jsonAns.put("voters", answer.getJSONArray("voters"));
 					
 					jsonQ.put("answer2", jsonAns);
 				}
@@ -227,9 +246,10 @@ public class ParseExtension extends CordovaPlugin {
 					ParseObject answer = question.getParseObject("answer3");
 					JSONObject jsonAns = new JSONObject();
 					
-					jsonAns.put("id", answer.getString("objectId"));
+					jsonAns.put("id", answer.getObjectId());
 					jsonAns.put("text", answer.getString("text"));
 					jsonAns.put("count", answer.getInt("count"));
+					jsonAns.put("voters", answer.getJSONArray("voters"));
 					
 					jsonQ.put("answer3", jsonAns);
 				}
@@ -238,9 +258,10 @@ public class ParseExtension extends CordovaPlugin {
 					ParseObject answer = question.getParseObject("answer4");
 					JSONObject jsonAns = new JSONObject();
 					
-					jsonAns.put("id", answer.getString("objectId"));
+					jsonAns.put("id", answer.getObjectId());
 					jsonAns.put("text", answer.getString("text"));
 					jsonAns.put("count", answer.getInt("count"));
+					jsonAns.put("voters", answer.getJSONArray("voters"));
 					
 					jsonQ.put("answer4", jsonAns);
 				}
@@ -249,9 +270,10 @@ public class ParseExtension extends CordovaPlugin {
 					ParseObject answer = question.getParseObject("answer5");
 					JSONObject jsonAns = new JSONObject();
 					
-					jsonAns.put("id", answer.getString("objectId"));
+					jsonAns.put("id", answer.getObjectId());
 					jsonAns.put("text", answer.getString("text"));
 					jsonAns.put("count", answer.getInt("count"));
+					jsonAns.put("voters", answer.getJSONArray("voters"));
 					
 					jsonQ.put("answer5", jsonAns);
 				}
@@ -348,8 +370,7 @@ public class ParseExtension extends CordovaPlugin {
 	  		      callbackContext.error("User cancelled fb login");
 	  		    } else if (user.isNew()) {
 	  		      Log.d(TAG, "User signed up and logged in through Facebook!");
-	  		      JSONObject ret = getCurrentUser();
-	  		      callbackContext.success(ret);
+	  		      makeMeRequest(callbackContext);
 	  		    } else {
 	  		      Log.d(TAG, "User logged in through Facebook!");
 	  		      JSONObject ret = getCurrentUser();
@@ -357,6 +378,7 @@ public class ParseExtension extends CordovaPlugin {
 	  		    }
 	  		  }
 	  		});
+
 	}
 	
 	private void signUp(JSONObject arg_object, final CallbackContext callbackContext){
@@ -478,6 +500,43 @@ public class ParseExtension extends CordovaPlugin {
 		}
 	}
 	
+	private void makeMeRequest(final CallbackContext callbackContext){
+		
+		Request req = Request.newMeRequest(ParseFacebookUtils.getSession(), new GraphUserCallback() {
+			
+			@Override
+			public void onCompleted(GraphUser user, Response response) {
+				
+				String fbId = user.getId();
+				String name = user.getName();
+				
+				ParseUser currentUser = ParseUser.getCurrentUser();
+				currentUser.put("fbid", fbId);
+				currentUser.put("name", name);
+				
+				currentUser.saveInBackground(new SaveCallback() {
+					
+					@Override
+					public void done(ParseException exp) {
+
+						if(exp == null){
+							JSONObject ret = getCurrentUser();
+							Log.d(TAG, "save success");
+							callbackContext.success(ret);
+						}
+						else{
+						
+							Log.d(TAG, "save failed" + exp.getMessage());
+			    	    	callbackContext.error(exp.getMessage());
+						}
+					}
+				});
+			}
+		});
+		
+		req.executeAsync();
+	}
+	
 	private void updateUser(JSONObject arg_object, final CallbackContext callbackContext){
 		
     	try {
@@ -521,6 +580,47 @@ public class ParseExtension extends CordovaPlugin {
 			});
 
     	} catch (JSONException e1) {
+    		Log.d(TAG, "JSONException" + e1.getMessage());
+	    	callbackContext.error(e1.getMessage());
+		}
+	}
+	
+	private void voteAnswer(JSONObject arg_object, final CallbackContext callbackContext){
+		try {
+			
+			String ans_id = arg_object.getString("ans_id");
+			final String user_id = arg_object.getString("user_id");
+			
+			ParseQuery<ParseObject> query = ParseQuery.getQuery("Answer");
+			 
+			// Retrieve the object by id
+			query.getInBackground(ans_id, new GetCallback<ParseObject>() {
+			  public void done(ParseObject ansObject, ParseException e) {
+			    if (e == null) {
+
+			    	ansObject.increment("count");
+			    	ansObject.addUnique("voters", user_id);
+			    	ansObject.saveInBackground(new SaveCallback() {
+						
+						@Override
+						public void done(ParseException exp) {
+							if(exp == null){
+								Log.d(TAG, "answer updated");
+								callbackContext.success();
+							}else{
+								Log.d(TAG, "ParseException" + exp.getMessage());
+						    	callbackContext.error(exp.getMessage());
+							}
+						}
+					});
+			    }else{
+			    	Log.d(TAG, "ParseException" + e.getMessage());
+			    	callbackContext.error(e.getMessage());
+			    }
+			  }
+			});
+			
+		}catch (JSONException e1) {
     		Log.d(TAG, "JSONException" + e1.getMessage());
 	    	callbackContext.error(e1.getMessage());
 		}
