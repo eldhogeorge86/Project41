@@ -13,7 +13,7 @@ angular.module('home.controllers', [])
         };
     })
 
-    .controller('HomeCtrl', function($scope, $state, DBService, $location, $ionicLoading, $ionicPopup) {
+    .controller('HomeCtrl', function($scope, $state, DBService, $location, $ionicLoading, $ionicPopup, $ionicActionSheet) {
 
         $scope.questions = [];
 
@@ -45,12 +45,15 @@ angular.module('home.controllers', [])
 
                     $scope.questions = result.questions;
                     $scope.prepareAnswers();
+                    $scope.$broadcast('scroll.refreshComplete');
                     $scope.hideLoading();
                 }, function () {
+                    $scope.$broadcast('scroll.refreshComplete');
                     $scope.hideLoading();
                 });
             }
             else{
+                DBService.user.id = "1";
                 $scope.questions = [
                     {
                         data : "test question?",
@@ -58,14 +61,20 @@ angular.module('home.controllers', [])
                             name: "eg"
                         },
                         answer1 : {
-                            text : "yes"
+                            text : "yes",
+                            mine : true,
+                            count: 1,
+                            voters:["1"]
                         },
                         answer2 : {
-                            text : "no"
+                            text : "no",
+                            mine : false,
+                            count: 0
                         },
                         toAnswer : false
                     }
                 ];
+                $scope.prepareAnswers();
                 $scope.hideLoading();
             }
         };
@@ -82,11 +91,23 @@ angular.module('home.controllers', [])
                 qs.count++;
                 ans.count++;
                 ans.voters.push(DBService.user.id);
+                ans.mine = true;
                 $scope.calculatePercentage();
                 qs.toAnswer = false;
                 $scope.hideLoading();
             }, function(){
                 $scope.hideLoading();
+            });
+        };
+
+        $scope.onHold = function(){
+            $ionicActionSheet.show({
+                destructiveText: 'Remove Vote',
+                titleText: 'Change Vote',
+                cancelText: 'Cancel',
+                destructiveButtonClicked : function() {
+                    return true;
+                }
             });
         };
 
@@ -106,7 +127,11 @@ angular.module('home.controllers', [])
                         $scope.questions[i].answer1.voters = [];
                     } else {
                         if ($scope.questions[i].answer1.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].answer1.mine = true;
                             $scope.questions[i].toAnswer = false;
+                        }
+                        else{
+                            $scope.questions[i].answer1.mine= false;
                         }
                     }
                     $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer1.count;
@@ -117,7 +142,11 @@ angular.module('home.controllers', [])
                         $scope.questions[i].answer2.voters = [];
                     } else {
                         if ($scope.questions[i].answer2.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].answer2.mine = true;
                             $scope.questions[i].toAnswer = false;
+                        }
+                        else{
+                            $scope.questions[i].answer2.mine= false;
                         }
                     }
                     $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer2.count;
@@ -128,7 +157,11 @@ angular.module('home.controllers', [])
                         $scope.questions[i].answer3.voters = [];
                     } else {
                         if ($scope.questions[i].answer3.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].answer3.mine = true;
                             $scope.questions[i].toAnswer = false;
+                        }
+                        else{
+                            $scope.questions[i].answer3.mine= false;
                         }
                     }
                     $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer3.count;
@@ -139,7 +172,11 @@ angular.module('home.controllers', [])
                         $scope.questions[i].answer4.voters = [];
                     } else {
                         if ($scope.questions[i].answer4.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].answer4.mine = true;
                             $scope.questions[i].toAnswer = false;
+                        }
+                        else{
+                            $scope.questions[i].answer4.mine= false;
                         }
                     }
                     $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer4.count;
@@ -150,7 +187,11 @@ angular.module('home.controllers', [])
                         $scope.questions[i].answer5.voters = [];
                     } else {
                         if ($scope.questions[i].answer5.voters.indexOf(DBService.user.id) != -1) {
+                            $scope.questions[i].answer5.mine = true;
                             $scope.questions[i].toAnswer = false;
+                        }
+                        else{
+                            $scope.questions[i].answer5.mine= false;
                         }
                     }
                     $scope.questions[i].count = $scope.questions[i].count + $scope.questions[i].answer5.count;

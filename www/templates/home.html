@@ -13,7 +13,8 @@
                 </ion-refresher>
                 <div class="list card" ng-repeat="qs in questions">
                     <div class="item">
-                        <h2 class="title">{{qs.user.name}}</h2>
+                        {{qs.user.name}}
+                        <span class="item-note">votes : {{qs.count}}</span>
                     </div>
 
                     <div class="item item-body">
@@ -28,30 +29,34 @@
                         <button class="button button-block" ng-click="vote(qs, qs.answer5)" ng-show="qs.hasAnswer5">{{qs.answer5.text}}</button>
                     </div>
 
-                    <div class="item" ng-show="!qs.toAnswer && qs.hasAnswer1" style="height:50px;">
+                    <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer1" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer1.percent}}%;background-color: #f0b840;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
-                        {{qs.answer1.text}}
+                         {{qs.answer1.text}}
                         <span class="item-note">{{qs.answer1.percent}}%</span>
+                        <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer1.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
-                    <div class="item" ng-show="!qs.toAnswer && qs.hasAnswer2" style="height:50px;">
+                    <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer2" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer2.percent}}%;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;background-color: #498f24"></div>
                         {{qs.answer2.text}}
                         <span class="item-note">{{qs.answer2.percent}}%</span>
+                        <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer2.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
-                    <div class="item" ng-show="!qs.toAnswer && qs.hasAnswer3" style="height:50px;">
+                    <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer3" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer3.percent}}%;background-color: #145fd7;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
                         {{qs.answer3.text}}
                         <span class="item-note">{{qs.answer3.percent}}%</span>
+                        <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer3.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
-                    <div class="item" ng-show="!qs.toAnswer && qs.hasAnswer4" style="height:50px;">
+                    <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer4" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer4.percent}}%;background-color: #cc2311;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
-                        {{qs.answer4.text}}
-                        <span class="item-note">{{qs.answer4.percent}}%</span>
+                         {{qs.answer4.text}}
+                        <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer4.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
-                    <div class="item" ng-show="!qs.toAnswer && qs.hasAnswer5" style="height:50px;">
+                    <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer5" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer5.percent}}%;background-color: #8a6de9;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
                         {{qs.answer5.text}}
                         <span class="item-note">{{qs.answer5.percent}}%</span>
+                        <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer5.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
                 </div>
             </ion-content>
