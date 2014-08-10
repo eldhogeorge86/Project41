@@ -30,8 +30,8 @@
                     </div>
 
                     <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer1" style="height:50px;padding-right: 30px;" on-hold="onHold()">
-                        <div style="width:{{qs.answer1.percent}}%;background-color: #f0b840;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
-                         {{qs.answer1.text}}
+                        <div style="width:{{qs.answer1.percent}}%;background-color: #f0b840};height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
+                        {{qs.answer1.text}}
                         <span class="item-note">{{qs.answer1.percent}}%</span>
                         <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer1.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
@@ -49,11 +49,12 @@
                     </div>
                     <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer4" style="height:50px;padding-right: 30px;" on-hold="onHold()">
                         <div style="width:{{qs.answer4.percent}}%;background-color: #cc2311;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
-                         {{qs.answer4.text}}
+                        {{qs.answer4.text}}
+                        <span class="item-note">{{qs.answer4.percent}}%</span>
                         <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer4.mine }" style="font-size: 20px;right:0px;"></i>
                     </div>
                     <div class="item item-icon-right" ng-show="!qs.toAnswer && qs.hasAnswer5" style="height:50px;padding-right: 30px;" on-hold="onHold()">
-                        <div style="width:{{qs.answer5.percent}}%;background-color: #8a6de9;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
+                        <div style="width:{{qs.answer5.percent}%;background-color: #8a6de9;height:100%;position: absolute;top: 0px;left: 0px;z-index:-1;"></div>
                         {{qs.answer5.text}}
                         <span class="item-note">{{qs.answer5.percent}}%</span>
                         <i class="icon" ng-class="{ 'ion-checkmark-round': qs.answer5.mine }" style="font-size: 20px;right:0px;"></i>

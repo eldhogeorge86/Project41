@@ -72,6 +72,42 @@ angular.module('home.controllers', [])
                             count: 0
                         },
                         toAnswer : false
+                    },
+                    {
+                        data : "test question?",
+                        user:{
+                            name: "eg"
+                        },
+                        answer1 : {
+                            text : "yes",
+                            mine : true,
+                            count: 1,
+                            voters:["1"]
+                        },
+                        answer2 : {
+                            text : "no",
+                            mine : false,
+                            count: 0
+                        },
+                        toAnswer : false
+                    },
+                    {
+                        data : "test question?",
+                        user:{
+                            name: "eg"
+                        },
+                        answer1 : {
+                            text : "yes",
+                            mine : true,
+                            count: 1,
+                            voters:["1"]
+                        },
+                        answer2 : {
+                            text : "no",
+                            mine : false,
+                            count: 0
+                        },
+                        toAnswer : false
                     }
                 ];
                 $scope.prepareAnswers();
